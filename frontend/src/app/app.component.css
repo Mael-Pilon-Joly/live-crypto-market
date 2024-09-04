@@ -1,0 +1,24 @@
+html, body {
+    background-color: linear-gradient(to bottom, darkblue, rgb(3, 105, 139));
+  }
+
+  .navbar {
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    padding: 10px;
+  }
+  
+  .navbar a {
+    color: white;
+    padding: 14px 50px;
+    text-decoration: none;
+  }
+  
+  .navbar-logo {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+  }
+  
+  

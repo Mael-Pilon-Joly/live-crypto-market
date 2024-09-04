@@ -1,0 +1,94 @@
+<div class="container">
+
+  <!-- Create Portfolio Section -->
+  <div class="create-portfolio-container">
+      <label for="portfolio-name">Name:</label>
+      <input id="portfolio-name" type="text" [(ngModel)]="portfolioName" placeholder="Enter portfolio name" />
+      <button (click)="createPortfolio()">Create Portfolio</button>
+  </div>
+
+  <!-- Portfolio Overview Section -->
+  <div class="portfolio-overview-container">
+      <h3>Your Portfolios</h3>
+      <label for="portfolio-select">Select your portfolio:</label>
+      <select id="portfolio-select" [(ngModel)]="selectedPortfolioId" (change)="onPortfolioChange()">
+          <option *ngFor="let portfolio of portfolios" [value]="portfolio.id">{{ portfolio.name }}</option>
+      </select>
+      <div style="color:black">
+      <p><strong>Worth:</strong> {{ currentPortfolioWorth }} USD $</p>
+      <div style="color:black">Money spent on portfolio: {{ portfolioTotalSpent}} USD$</div>
+      <div style="color:black">Unrealized gain/loss: {{ unrealizedGainLoss}} USD$</div>
+      <div style="color:black">Profit percentage: {{ unrealizedGainLossPercentage}} %</div>
+
+    </div>
+  </div>
+
+  <!-- Line Chart Section -->
+  <div class="chart-container">
+     <!-- Date Range Picker -->
+  <div>
+    <mat-form-field>
+      <mat-label>Start Date and Time</mat-label>
+      <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate">
+      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+      <mat-datepicker #startPicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>End Date and Time</mat-label>
+      <input matInput [matDatepicker]="endPicker" [(ngModel)]="endDate">
+      <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+      <mat-datepicker #endPicker></mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button (click)="fetchPortfolioValues()">Load Data</button>
+  </div>
+  <div style="height: 300px">
+      <canvas id="canvas"></canvas>
+  </div>
+  </div>
+
+  <!-- Pie Chart Section -->
+  <div class="pie-chart-container">
+      <h3>Division of Cryptos (Partition)</h3>
+      <!-- Add the pie chart canvas here -->
+      <div style="height: 400px">
+     <canvas id="pieChartCanvas"></canvas>
+  </div>
+  </div>
+
+  <!-- Buy/Sell Cryptocurrency Section -->
+  <div class="buy-sell-container">
+      <h3>Buy/Sell Cryptocurrency</h3>
+      <div class="form-group">
+          <label for="action-select">Action:</label>
+          <select id="action-select" [(ngModel)]="action">
+              <option [ngValue]="transactionType.BUY">Buy</option>
+              <option [ngValue]="transactionType.SELL">Sell</option>
+          </select>
+      </div>
+      <div class="form-group">
+          <label for="portfolio-select">Select Portfolio:</label>
+          <select id="portfolio-select" [(ngModel)]="selectedPortfolioId">
+              <option *ngFor="let portfolio of portfolios" [value]="portfolio.id">{{ portfolio.name }}</option>
+          </select>
+      </div>
+      <div class="form-group">
+          <label for="crypto-select">Search Crypto:</label>
+          <input id="crypto-select" type="text" [(ngModel)]="cryptoSearchTerm" (input)="onSearchCrypto()" placeholder="Enter cryptocurrency name or symbol" />
+          <ul style="color:black" class="search-results">
+              <li *ngFor="let crypto of filteredCryptos" (click)="selectCrypto(crypto)">
+                  {{ crypto.name }} ({{ crypto.assetId }})
+              </li>
+          </ul>
+          <div style="color:black">Worth: {{ currentCryptoWorth }} USD$ </div>
+      </div>
+      <div class="form-group">
+          <label for="amount-input">Amount:</label>
+          <input id="amount-input" type="number" [(ngModel)]="amount" placeholder="Enter amount" />
+      </div>
+      <button (click)="executeTransaction()">Execute</button>
+      <div *ngIf="transactionResult">
+          <p style="color:red">{{ transactionResult }}</p>
+      </div>
+  </div>
+
+</div>

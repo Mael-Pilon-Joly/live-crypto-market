@@ -1,0 +1,5 @@
+apiGateway: stocktradingapi
+lambda: CognitoTokenValidation-stocktradingapp
+cognitoUserPool: stocktrading-app-userpool
+ 
+

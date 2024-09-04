@@ -1,0 +1,67 @@
+<div class="dashboard-container">
+    <div class="card-pale item2">
+        <h2>Top 10 Cryptos with Most Increased Value in the Last Hour</h2>
+        <ul>
+            <li class="hover-darken" *ngFor="let crypto of top10MostIncreased" (mouseover)="displayChart(crypto.assetId, true)" (click)="onNavigate(crypto.assetId)">
+                {{ crypto.assetId }}: 
+                <span [ngStyle]="getPercentageStyle(crypto.increase)">
+                    {{ crypto.increase | number: '1.2-2' }}%
+                </span> 
+                ({{ crypto.lastPrice | number: '1.2-2' }} USD)
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-dark item1">
+        <canvas id="chartCanvas"></canvas>
+    </div>
+
+    <div class="card-pale item6">
+        <h2>Top 10 Most Valuable Cryptocurrencies</h2>
+        <ul>
+            <li  class="hover-darken" *ngFor="let crypto of top10MostValuableCryptos" (click)="onNavigate(crypto.assetId)">
+                {{ crypto.name }} ({{ crypto.assetId }}): ${{ crypto.standardPriceUsd | number:'1.2-2' }}  
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-dark item4">
+        <canvas id="chartCanvasTop10TrendingDown"></canvas>
+    </div>
+
+    <div class="card-pale item3">
+        <h2>Top 10 Cryptos with Most Decreased Value in the Last Hour</h2>
+        <ul>
+            <li class="hover-darken" *ngFor="let crypto of top10MostDecreased" (mouseover)="displayChart(crypto.assetId, false)" (click)="onNavigate(crypto.assetId)">
+                {{ crypto.assetId }}: 
+                <span [ngStyle]="getPercentageStyle(crypto.decrease)">
+                    {{ crypto.decrease | number: '1.2-2' }}%
+                </span> 
+                ({{ crypto.lastPrice | number: '1.2-2' }} USD)
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-dark item5">
+        <h2>Top 10 Trending Cryptos in the Last Hour</h2>
+        <ul>
+            <li class="hover-darken" *ngFor="let crypto of top10Trending" (click)="onNavigate(crypto.assetId)">
+                {{ crypto.assetId }}: 
+                <span style="color: green;">
+                    {{ crypto.percentageIncrease | number: '1.2-2' }}%
+                </span> 
+                ({{ crypto.lastVolume | number: '1.0-0' }} USD volume)
+            </li>
+        </ul>
+        <canvas id="chartCanvasTop10MostTrending"></canvas>
+    </div>
+
+    <div class="card-dark item7">
+        <h2> Top 10 Most Profitable Portfolios (%) </h2>
+        <ul>
+            <li *ngFor="let user of top10MostProfitableUsers">
+                <div style="color:white">Portfolio: {{ user.portfolioName }} ({{user.email}}) profit: {{user.percentageProfit}} %</div>
+            </li>
+        </ul>
+    </div>
+</div>

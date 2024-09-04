@@ -1,0 +1,45 @@
+<div *ngIf="cryptoDto" class="crypto-details-container">
+    <div class="crypto-detail">
+      <strong>Name:</strong> {{ cryptoDto.name }}
+    </div>
+    <div class="crypto-detail">
+      <strong>Data Quote Start:</strong> {{ cryptoDto.dataQuoteStart }}
+    </div>
+    <div class="crypto-detail">
+      <strong>Data Quote End:</strong> {{ cryptoDto.dataQuoteEnd }}
+    </div>
+    <div class="crypto-detail">
+      <strong>Data Trade Start:</strong> {{ cryptoDto.dataTradeStart }}
+    </div>
+    <div class="crypto-detail">
+      <strong>Asset ID:</strong> {{ cryptoDto.assetId }}
+    </div>
+    <div class="crypto-detail">
+      <strong>Data Trade End:</strong> {{ cryptoDto.dataTradeEnd }}
+    </div>
+    <div class="crypto-detail">
+      <strong>Data Symbols Count:</strong> {{ cryptoDto.dataSymbolsCount }}
+    </div>
+    <div class="crypto-detail">
+      <strong>Volume 1 Hour (USD):</strong> {{ cryptoDto.volume1hrsUsd! }}
+    </div>
+    <div class="crypto-detail">
+      <strong>Volume 1 Day (USD):</strong> {{ cryptoDto.volume1dayUsd }}
+    </div>
+    <div class="crypto-detail">
+      <strong>Volume 1 Month (USD):</strong> {{ cryptoDto.volume1mthUsd }}
+    </div>
+    <div class="crypto-detail">
+      <strong>Price (USD):</strong> {{ cryptoDto.priceUsd }}
+    </div>
+  
+    <div class="chart-container">
+      <div class="card-dark">
+        <canvas id="chartCanvasPrice"></canvas>
+      </div>
+      <div class="card-dark">
+        <canvas id="chartCanvasVolume"></canvas>
+      </div>
+    </div>
+  </div>
+  

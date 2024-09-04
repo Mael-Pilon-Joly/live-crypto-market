@@ -1,0 +1,10 @@
+
+<nav class="navbar">
+  <img src="assets/crypto-image.png" alt="Logo" class="navbar-logo">
+  <a routerLink="/dashboard">Dashboard</a>
+  <a *ngIf="isLoggedIn()" routerLink="/portfolio">Portfolio</a>
+  <a routerLink="/authentification">Authentification</a>
+  <a routerLink="/guide">Get started</a>
+</nav>
+
+<router-outlet></router-outlet>
