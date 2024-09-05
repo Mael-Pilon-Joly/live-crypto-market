@@ -220,71 +220,80 @@ export class PortfolioComponent implements OnInit {
   }
   }
 
-    executeTransaction() {
-      if (!this.selectedPortfolioId || !this.selectedCrypto || this.amount <= 0) {
-        this.transactionResult = 'Please fill in all fields.';
-        return;
-      }
+  executeTransaction() {
+    if (!this.selectedPortfolioId || !this.selectedCrypto || this.amount <= 0) {
+      this.transactionResult = 'Please fill in all fields.';
+      return;
+    }
   
-      this.portfolioService.getPortfolioById(this.selectedPortfolioId).pipe(
-        switchMap(currentPortfolio => {
-          return this.portfolioService.getPortfolioCryptos(this.selectedPortfolioId!).pipe(
-            switchMap(portfolioCryptos => {
-              // Sum the quantities of all portfolioCryptos with the same assetId
-              const totalQuantity = portfolioCryptos
-                .filter(pc => pc.assetId === this.selectedCrypto!.assetId)
-                .reduce((acc, pc) => acc + pc.quantity, 0);
+    this.portfolioService.getPortfolioCryptos(this.selectedPortfolioId!).pipe(
+      switchMap(portfolioCryptos => {
+        const totalQuantity = portfolioCryptos
+          .filter(pc => pc.assetId === this.selectedCrypto!.assetId)
+          .reduce((acc, pc) => acc + pc.quantity, 0);
   
-              if (this.action === TransactionType.SELL) {
-                
-                if (totalQuantity === 0) {
-                  this.transactionResult = 'You do not possess this cryptocurrency.';
-                  return of(null); 
-                }
-  
-                if (totalQuantity < this.amount) {
-                  this.transactionResult = `You only possess ${totalQuantity} of this cryptocurrency.`;
-                  return of(null); 
-                }
-              }
-  
-              return this.stockDetailService.fetchCryptoByAssetId(this.selectedCrypto!.assetId).pipe(
-                switchMap(cryptoAsset => {
-                  const transaction: Transaction = {
-                    portfolio: currentPortfolio,
-                    crypto: cryptoAsset,
-                    quantity: this.amount,
-                    type: this.action,
-                    cryptoName: this.selectedCrypto!.name,
-                    cryptoAssetId: this.selectedCrypto!.assetId,
-                    price: cryptoAsset.priceUsd * this.amount,
-                    pricePerCrypto: cryptoAsset.priceUsd,
-                    transactionDate: new Date().toISOString()
-                  };
-  
-                  return this.portfolioService.createTransaction(transaction);
-                })
-              );
-            })
-          );
-        })
-      ).subscribe({
-        next: result => {
-          if (result !== null) {
-            this.transactionResult = "Transaction and PortfolioCrypto successfully completed";
-            this.loadPortfolios();
-            this.loadPortfolioTransactions();
-            this.loadPortfolioCryptos();
+        if (this.action === TransactionType.SELL) {
+          if (totalQuantity === 0) {
+            this.transactionResult = 'You do not possess this cryptocurrency.';
+            return of(null);
           }
-        },
-        error: error => {
-          console.error('Error executing transaction:', error);
-          this.transactionResult = 'Transaction failed. Please try again.';
+  
+          if (totalQuantity < this.amount) {
+            this.transactionResult = `You only possess ${totalQuantity} of this cryptocurrency.`;
+            return of(null);
+          }
         }
-      });
+  
+        return this.portfolioService.getPortfolioById(this.selectedPortfolioId!).pipe(
+          switchMap(currentPortfolio => {
+            return this.stockDetailService.fetchCryptoByAssetId(this.selectedCrypto!.assetId).pipe(
+              switchMap(cryptoAsset => {
+                const transaction: Transaction = {
+                  portfolio: currentPortfolio,
+                  crypto: cryptoAsset,
+                  quantity: this.amount,
+                  type: this.action,
+                  cryptoName: this.selectedCrypto!.name,
+                  cryptoAssetId: this.selectedCrypto!.assetId,
+                  price: cryptoAsset.priceUsd * this.amount,
+                  pricePerCrypto: cryptoAsset.priceUsd,
+                  transactionDate: new Date().toISOString()
+                };
+  
+                return this.portfolioService.createTransaction(transaction).pipe(
+                  switchMap(createdTransaction => {
+                    const portfolioCrypto: PortfolioCrypto = {
+                      portfolio: currentPortfolio,
+                      crypto: cryptoAsset,
+                      name: this.selectedCrypto!.name,
+                      assetId: this.selectedCrypto!.assetId,
+                      quantity: this.amount,
+                      purchaseDate: new Date()
+                    };
+  
+                    return this.portfolioService.createPortfolioCrypto(portfolioCrypto);
+                  })
+                );
+              })
+            );
+          })
+        );
+      })
+    ).subscribe({
+      next: result => {
+        if (result !== null) {
+          this.transactionResult = "Transaction and PortfolioCrypto successfully completed";
+          this.loadPortfolios();
+          this.loadPortfolioCryptos();
+        }
+      },
+      error: error => {
+        console.error('Error executing transaction:', error);
+        this.transactionResult = 'Transaction failed. Please try again.';
+      }
+    });
   }
   
-
   fetchPortfolioValues(): void {
     if (this.selectedPortfolioId && this.startDate && this.endDate) {
       const startDateStr = this.startDate.toISOString();
