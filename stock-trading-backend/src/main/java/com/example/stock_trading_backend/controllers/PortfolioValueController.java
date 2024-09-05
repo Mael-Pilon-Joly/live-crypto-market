@@ -49,13 +49,13 @@ public class PortfolioValueController {
         return new ResponseEntity<>(portfolioValues, HttpStatus.OK);
     }
 
-    @GetMapping("/portfolio/{portfolioId}/range")
+    @GetMapping("/portfolio/{portfolioId}/range/{startDate}/{endDate}")
     public ResponseEntity<List<PortfolioValue>> getPortfolioValuesByDateRange(
             @PathVariable Long portfolioId,
-            @RequestParam(name = "startDate", required = false)
+            @PathVariable(name = "startDate", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             LocalDateTime startDate,
-            @RequestParam(name = "endDate", required = false)
+            @PathVariable(name = "endDate", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             LocalDateTime endDate) {
         List<PortfolioValue> portfolioValues = portfolioValueService.getPortfolioValuesByDateRange(portfolioId, startDate, endDate);

@@ -14,7 +14,7 @@ export class StockDetailsService {
   constructor(private http: HttpClient) {}
 
   fetchCryptoByAssetId(assetId: string) : Observable<CryptoDto> {
-    return this.http.get<CryptoDto>(`${this.apiUrl}/cryptos/asset-id?assetId=${assetId}`);
+    return this.http.get<CryptoDto>(`${this.apiUrl}/cryptos/asset-id/${assetId}`);
   }
 
 }

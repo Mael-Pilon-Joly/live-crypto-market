@@ -2,3 +2,5 @@ project_guide.md
 secret.txt
 lambda-function/
 frontend/src/assets/aws-exports.js
+stock-trading-backend/src/main/resources/application-prod.properties
+aws-setup.md

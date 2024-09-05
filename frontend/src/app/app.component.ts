@@ -5,8 +5,6 @@ import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 import {MatNativeDateModule} from '@angular/material/core';
 
 
-
-import '@aws-amplify/ui/styles.css';
 import { CommonModule } from '@angular/common';
 
 const awsconfig = require('../assets/aws-exports').default;

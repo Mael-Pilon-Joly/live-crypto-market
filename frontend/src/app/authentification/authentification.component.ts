@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Amplify } from 'aws-amplify';
 import { AmplifyAuthenticatorModule, AuthenticatorService } from '@aws-amplify/ui-angular';
 import { Hub } from 'aws-amplify/utils';
 import { fetchAuthSession, fetchUserAttributes } from "aws-amplify/auth";
 import { ApiService } from '../api.service';
+//import '@aws-amplify/ui/dist/styles.css';
 
 
 
@@ -14,7 +15,8 @@ const awsconfig = require('../../assets/aws-exports').default;
   standalone: true,
   imports: [AmplifyAuthenticatorModule],
   templateUrl: './authentification.component.html',
-  styleUrl: './authentification.component.css'
+  styleUrl: './authentification.component.css',
+  encapsulation: ViewEncapsulation.None 
 })
 export class AuthentificationComponent {
   

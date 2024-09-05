@@ -90,8 +90,7 @@ export class PortfolioService {
   
 
   getUserByEmail(email: string): Observable<User> {
-    const params = new HttpParams().set('email', email);
-    return this.http.get<User>(`${this.apiUrl}/users/email`, { params });
+    return this.http.get<User>(`${this.apiUrl}/users/email/${email}`);
   }
 
   getPortfolioById(id: number): Observable<Portfolio> {
@@ -106,12 +105,7 @@ export class PortfolioService {
   }
 
   getPortfolioValuesByDateRange(portfolioId: number, startDate: string, endDate: string): Observable<PortfolioValue[]> {
-    return this.http.get<PortfolioValue[]>(`${this.apiUrl}/portfolio-values/portfolio/${portfolioId}/range`, {
-      params: {
-        startDate: startDate,
-        endDate: endDate
-      }
-    });
+    return this.http.get<PortfolioValue[]>(`${this.apiUrl}/portfolio-values/portfolio/${portfolioId}/range/${startDate}/${endDate}`);
   }
 
   getPortfolioCryptos(portfolioId: number): Observable<PortfolioCrypto[]> {

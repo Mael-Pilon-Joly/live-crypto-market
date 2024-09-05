@@ -40,8 +40,8 @@ public class CryptoController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/asset-id")
-    public ResponseEntity<Crypto> getCryptoByAssetId(@RequestParam String assetId) throws EntityNotFoundException {
+    @GetMapping("/asset-id/{assetId}")
+    public ResponseEntity<Crypto> getCryptoByAssetId(@PathVariable String assetId) throws EntityNotFoundException {
         Crypto crypto = cryptoService.getCryptoByAssetId(assetId);
         return new ResponseEntity<>(crypto, HttpStatus.OK);
     }

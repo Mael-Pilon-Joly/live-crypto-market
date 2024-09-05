@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CryptoDto, CryptoHistory, DashboardService } from '../dashboard/dashboard.service';
 import { StockDetailsService } from './stock-details.service';
 import { NgIf } from '@angular/common';
-import { Chart } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
 import moment from 'moment';
 
 @Component({
@@ -21,16 +21,22 @@ export class StockdetailsComponent  implements OnInit {
   cryptoHistory: CryptoHistory[] = [];
 
 
-  constructor(private route: ActivatedRoute, private stockDetailsService: StockDetailsService, private dashboardService: DashboardService) {}
+  constructor(private route: ActivatedRoute, private stockDetailsService: StockDetailsService, private dashboardService: DashboardService) {
+    Chart.register(...registerables);
+  }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id')!;
-    this.stockDetailsService.fetchCryptoByAssetId(this.id).subscribe({
-      next: (data) => this.cryptoDto = data,
-      error: (error) => console.error('Error fetching crypto:', error)
+    this.route.paramMap.subscribe(params => {
+      this.id = params.get('id')!;
+
+      this.stockDetailsService.fetchCryptoByAssetId(this.id).subscribe({
+        next: (data) => this.cryptoDto = data,
+        error: (error) => console.error('Error fetching crypto:', error)
+      });
+
+      this.displayChart(this.id, true);
+      this.displayChart(this.id, false);
     });
-    this.displayChart(this.id, true);
-    this.displayChart(this.id, false);
   }
 
   loadCryptoHistory(assetId: string, price: boolean): void {

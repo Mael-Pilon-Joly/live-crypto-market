@@ -20,8 +20,8 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestParam String token, @RequestParam String email) {
+    @PostMapping("/{token}/{email}")
+    public ResponseEntity<User> createUser(@PathVariable String token, @PathVariable String email) {
         User createdUser = userService.createUser(token, email);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
@@ -44,8 +44,8 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/email")
-    public ResponseEntity<User> getUserByEmail(@RequestParam String email) throws EntityNotFoundException {
+    @GetMapping("/email/{email}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email) throws EntityNotFoundException {
         User user = userService.getUserByEmail(email);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

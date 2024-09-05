@@ -59,7 +59,7 @@ export class DashboardService {
   }
 
   getCryptoHistoryForLast4Hours(assetId: string): Observable<CryptoHistory[]> {
-  return this.http.get<CryptoHistory[]>(`${this.apiUrl}/crypto-history/last-4-hours?assetId=${assetId}`);
+  return this.http.get<CryptoHistory[]>(`${this.apiUrl}/crypto-history/last-4-hours/${assetId}`);
 }
 
   getAllPortfolios(): Observable<Portfolio[]> {

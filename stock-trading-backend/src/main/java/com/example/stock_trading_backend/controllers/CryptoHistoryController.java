@@ -34,8 +34,8 @@ public class CryptoHistoryController {
         return ResponseEntity.ok(history);
     }
 
-    @GetMapping("/last-4-hours")
-    public List<CryptoHistory> getCryptoHistoryForLast4Hours(@RequestParam String assetId) {
+    @GetMapping("/last-4-hours/{assetId}")
+    public List<CryptoHistory> getCryptoHistoryForLast4Hours(@PathVariable String assetId) {
         return cryptoHistoryService.getCryptoHistoryForLast4Hours(assetId);
     }
 }

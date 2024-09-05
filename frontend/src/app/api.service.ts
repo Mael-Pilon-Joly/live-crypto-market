@@ -24,6 +24,6 @@ export class ApiService {
                        .set('email', email);
 
 
-    return this.http.post(this.apiUrl + "/users", "", { headers: headers , params: params});
+    return this.http.post(`${this.apiUrl}/users/${token}/${email}`, null);
   }
 }
